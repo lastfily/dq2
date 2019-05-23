@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--包扫描-->
+    <context:component-scan base-package="com.shiro.test.mvc.controller"/>
+    <!--<context:component-scan base-package="com.yt.dql.controller"/>-->
+
+    <!--注解-->
+    <mvc:annotation-driven/>
+
+    <!--静态资源配置-->
+    <mvc:resources location="/templates/" mapping="/abcde/**" />
+
+    <!-- 模板解析器 开始 -->
+    <!--<bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">-->
+        <!--<property name="prefix" value="templates/" />-->
+        <!--<property name="suffix" value=".html" />-->
+        <!--<property name="templateMode" value="HTML5" />-->
+        <!--<property name="cacheable" value="false" />-->
+        <!--<property name="characterEncoding" value="UTF-8"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">-->
+        <!--<property name="templateResolver" ref="templateResolver" />-->
+    <!--</bean>-->
+
+    <!--<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">-->
+        <!--<property name="templateEngine" ref="templateEngine" />-->
+        <!--<property name="characterEncoding"  value="UTF-8" />-->
+    <!--</bean>-->
+    <!--模板解析器 结束-->
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+</beans>

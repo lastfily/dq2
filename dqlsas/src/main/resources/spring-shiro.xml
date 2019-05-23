@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--<bean id="iniRealm" class="org.apache.shiro.realm.text.IniRealm">-->
+        <!--&lt;!&ndash;<constructor-arg name="resourcePath" value="classpath:shiro-web.ini"/>&ndash;&gt;-->
+    <!--</bean>-->
+    
+
+    <bean id="iniRealm" class="com.shiro.test.mvc.realm.MyShiroRealm"/>
+
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="iniRealm"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/gologin.html"/>
+        <property name="successUrl" value="/index.html"/>
+        <property name="unauthorizedUrl" value="/error.html"/>
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- 对静态资源设置匿名访问 -->
+                /logn.html=anon
+                /gologin.html=anon
+                /role.html=authc,roles[admin]
+                /menu/**=authc,roles[admin,test,guest],perms[menu:list]
+                /resources/** = anon
+                /index.html=authc
+                <!-- /** = authc 所有url都必须认证通过才可以访问-->
+                <!--/** = authc-->
+            </value>
+        </property>
+        <property name="filters">
+            <map>
+                <entry key="roles">
+                    <bean class="com.shiro.test.mvc.filter.MyFilter"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

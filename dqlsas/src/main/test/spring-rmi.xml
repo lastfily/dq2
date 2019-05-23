@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:jaxws="http://cxf.apache.org/jaxws"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+
+	<!-- 接口实现类 -->
+	<bean id="IHelloService" class="service.IHelloServiceImpl"></bean>
+
+	<!-- 配置RMI-->
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<!-- 设置RMI服务名，做为RMI客户端调用接口 -->
+		<property name="serviceName" value="hello"></property>
+		<!-- 对应接口实现类 -->
+		<property name="service" ref="IHelloService"></property>
+		<!-- RMI服务接口路径 -->
+		<property name="serviceInterface" value="service.IHelloService"></property>
+		<!-- 设置RMI服务端口 -->
+		<property name="registryPort" value="1799"></property>
+	</bean>
+
+
+	<bean id="RmiService" class="service.RmiServiceImpl"></bean>
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="RmiService" />
+		<property name="service" ref="RmiService" />
+		<property name="serviceInterface" value="service.RmiService" />
+		<!-- defaults to 1099 -->
+		<property name="registryPort" value="1799" />
+	</bean>
+
+
+	<jaxws:server id="helloService" serviceClass="service.HelloServiceImp" address="/hello"></jaxws:server>
+</beans>
